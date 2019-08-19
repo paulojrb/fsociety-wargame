@@ -29,7 +29,7 @@ $lRows = $lResult->fetch_array();
 
 # exists
 if ( $lRows == NULL ) {
-    $_SESSION["error_login"] = "Usuário ou senha não inválidos";
+    $_SESSION["error_login"] = "Usuário ou senha não inválidos, por favor tente novamente";
 } else {
     $_SESSION["name_user"] = $lRows[1];
     $_SESSION["time_for_logoff"] = time() + $TIME_SESSION;
@@ -37,6 +37,6 @@ if ( $lRows == NULL ) {
 $handler->conMysqlClose();
 
 /* Redirect default */
-//header('Location: ../index.php');
-print_r($_POST);
+header('Location: ../login');
+
 ?>

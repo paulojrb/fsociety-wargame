@@ -1,9 +1,25 @@
+<?php
+
+/* Required for login */
+session_start();
+
+/* ------------------------------------------
+ * Constants used in application
+ * ------------------------------------------ */
+require_once ('includes/constants.php');
+
+/* ------------------------------------------------------
+ * INCLUDE CLASS DEFINITION PRIOR TO INITIALIZING SESSION
+ * ------------------------------------------------------ */
+require_once (__ROOT__.'/php/insert-html.php');
+
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="shortcut icon" href="img/svg/security.svg" />
+	<link rel="shortcut icon" href="img/svg/ghost.svg" />
 	<link rel="stylesheet" type="text/css" href="css/uikit.css">
 	<link rel="stylesheet"  type="text/css" href="css/main.css"/>
 	<link href="https://fonts.googleapis.com/css?family=Poiret+One&display=swap" rel="stylesheet">
@@ -32,7 +48,15 @@
 							<li><a href=""><span class="fs-color-blue fs-navbar-text fs-link-hover" >Home</span></a></li>
 							<li><a href="dashboard/"><span class="fs-color-blue fs-navbar-text fs-link-hover">Dashboard</span></a></li>
 							<li><a href=""><span class="fs-color-blue fs-navbar-text fs-link-hover">About Us</span></a></li>
-							<li><a href="login/" target="_blank"><span class="fs-color-blue fs-navbar-text fs-link-hover">Login</span></a></li>
+							<?php
+								
+								if ( isset($_SESSION["name_user"]) ) {
+									echo ' <li><a href="php/logoff.php" ><span class="fs-color-blue fs-navbar-text fs-link-hover">Sair</span></a></li> ';
+								} else {
+									echo '<li><a href="login/" target="_blank"><span class="fs-color-blue fs-navbar-text fs-link-hover">Login</span></a></li>';
+								}
+							?>
+							
 						</ul>
 						<a class="uk-navbar-toggle uk-navbar-item uk-hidden@s" data-uk-toggle data-uk-navbar-toggle-icon href="#offcanvas-nav"></a>
 					</div>

@@ -1,9 +1,44 @@
+<?php
+
+/* session init */
+session_start();
+/* ------------------------------------------
+* check if the user is logged in
+* ------------------------------------------*/
+if ( isset($_SESSION["name_user"]) ) {
+    $lnameUser = $_SESSION["name_user"]; $lLoginAccount = true;
+} else { header('Location: ../php/logoff.php'); }
+
+/* ------------------------------------------
+ * Constants used in application
+ * ------------------------------------------ */
+require_once ('../includes/constants.php');
+
+/* ------------------------------------------------------
+ * INCLUDE CLASS DEFINITION PRIOR TO INITIALIZING SESSION
+ * ------------------------------------------------------ */
+require_once (__ROOT__.'/php/insert-html.php');
+
+/* ------------------------------------------
+* timeout for logoff
+* define time in php/constants.php
+* ------------------------------------------*/
+if ( isset($_SESSION["time_for_logoff"]) ) {
+    if ( $_SESSION["time_for_logoff"] < time() ) {
+        header('Location: ../php/logoff.php');
+    } else {
+        $_SESSION["time_for_logoff"] = time() + $TIME_SESSION;
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="shortcut icon" href="img/svg/security.svg" />
+	<link rel="shortcut icon" href="../img/svg/ghost.svg" />
 	<link rel="stylesheet" type="text/css" href="../css/uikit.css">
     <link rel="stylesheet"  type="text/css" href="main.css"/>
     <link href="https://fonts.googleapis.com/css?family=Handlee&display=swap" rel="stylesheet">
@@ -32,8 +67,8 @@
 					</div>
 					<div class="uk-navbar-right">
 						<ul class="uk-navbar-nav uk-visible@s">
-							<li><a href=""><span class="fs-color-blue fs-navbar-text fs-link-hover" ><span uk-icon="search"></span></a></li>
-							<li><a href="../"><span class="fs-color-blue fs-navbar-text fs-link-hover"><span uk-icon="reply"></span></a></li>
+							<li><a href="../" uk-tooltip="Voltar"><span class="fs-color-blue fs-navbar-text fs-link-hover" ><span uk-icon="reply"></span></a></li>
+							<li><a href="../php/logoff.php"  uk-tooltip="Sair"><span class="fs-color-blue fs-navbar-text fs-link-hover"><span uk-icon="sign-in"></span></a></li>
 							<li><a href=""><span class="fs-color-blue fs-navbar-text fs-link-hover"><span uk-icon="cog"></span></span></a></li>
 							<li><a href="#" target="_blank"><img src="../img/svg/astronaut.svg" width="40" height="40" uk-svg></a></li>
 						</ul>
@@ -91,44 +126,9 @@
 
                 <ul class="uk-switcher uk-margin">
                     <li>
-                        <ul class='uk-child-width-1-2 uk-child-width-1-6@s' uk-sortable='handle: .uk-card' uk-grid uk-scrollspy='cls: uk-animation-fade; target: .uk-card; delay: 200; repeat: false'>
-                            <li>
-                                <div class='uk-card uk-card-default uk-card-body'><img data-src='../img/medalhas/error.svg' width='100' height='100' uk-img></div>
-                            </li>
-                            <li>
-                                <div class='uk-card uk-card-default uk-card-body'><img data-src='../img/medalhas/error.svg' width='100' height='100' uk-img></div>
-                            </li>
-                            <li>
-                                <div class='uk-card uk-card-default uk-card-body'><img data-src='../img/medalhas/error.svg' width='100' height='100' uk-img></div>
-                            </li>
-                            <li>
-                                <div class='uk-card uk-card-default uk-card-body'><img data-src='../img/medalhas/error.svg' width='100' height='100' uk-img></div>
-                            </li>
-                            <li>
-                                <div class='uk-card uk-card-default uk-card-body'><img data-src='../img/medalhas/error.svg' width='100' height='100' uk-img></div>
-                            </li>
-                            <li>
-                                <div class='uk-card uk-card-default uk-card-body'><img data-src='../img/medalhas/error.svg' width='100' height='100' uk-img></div>
-                            </li>
-                            <li>
-                                <div class='uk-card uk-card-default uk-card-body'><img data-src='../img/medalhas/error.svg' width='100' height='100' uk-img></div>
-                            </li>
-                            <li>
-                                <div class='uk-card uk-card-default uk-card-body'><img data-src='../img/medalhas/error.svg' width='100' height='100' uk-img></div>
-                            </li>
-                            <li>
-                                <div class='uk-card uk-card-default uk-card-body'><img data-src='../img/medalhas/error.svg' width='100' height='100' uk-img></div>
-                            </li>
-                             <li>
-                                <div class='uk-card uk-card-default uk-card-body'><img data-src='../img/medalhas/error.svg' width='100' height='100' uk-img></div>
-                            </li>
-                            <li>
-                                <div class='uk-card uk-card-default uk-card-body'><img data-src='../img/medalhas/error.svg' width='100' height='100' uk-img></div>
-                            </li>
-                            <li>
-                                <div class='uk-card uk-card-default uk-card-body'><img data-src='../img/medalhas/error.svg' width='100' height='100' uk-img></div>
-                            </li>
-                        </ul>
+                    <ul class='uk-child-width-1-2 uk-child-width-1-6@s' uk-sortable='handle: .uk-card' uk-grid uk-scrollspy='cls: uk-animation-fade; target: .uk-card; delay: 200; repeat: false'>
+                        <?php echo ConsultFlag($_SESSION["name_user"]); ?>
+                    </ul>
                     </li>
                     <li>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</li>
                     <li>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur, sed do eiusmod.</li>

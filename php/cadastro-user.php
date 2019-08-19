@@ -3,6 +3,10 @@
 /* Required for register */
 session_start();
 
+/* ------------------------------------------
+ * Constants used in application
+ * ------------------------------------------ */
+require_once ('../includes/constants.php');
 require_once(__ROOT__.'/classes/handler-mysql.php');
 require_once(__ROOT__.'/includes/database-config.php');
 
@@ -10,9 +14,9 @@ require_once(__ROOT__.'/includes/database-config.php');
  * validation to prevent injection attacks
  * ------------------------------------------ */
 /* ----- POST ------ */
-$pUsername = addslashes($_POST["USER"]);
-$pPassword = hash('sha256', $_POST["PASS"]);
-$pToken = addslashes($_POST["TOKEN"]);
+$pUsername = addslashes($_POST["username_cadastro"]);
+$pPassword = hash('sha256', $_POST["passwd_cadastro_hidden_one"]);
+$pToken = addslashes($_POST["token_cadastro"]);
 /* ----- POST ------ */
 
 $response = array();
@@ -47,6 +51,6 @@ $_SESSION["create_user"] = $response;
 $handler->conMysqlClose();
 
 /* Redirect default */
-header('Location: ../index.php');
+header('Location: ../login/');
 
 ?>

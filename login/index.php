@@ -1,10 +1,84 @@
+<?php
+
+/* session init */
+session_start();
+
+if ( isset($_SESSION["name_user"]) ) {
+	header('Location: ../');
+}
+
+if ( isset($_SESSION["error_login"]) ) {
+	$msg_tmp = $_SESSION["error_login"];
+	echo "
+	<script>
+	window.onload = function(){
+		UIkit.modal.dialog(\"<p class='uk-modal-body' style='color: #666'>$msg_tmp</p>\");
+	}
+	</script>
+	";
+	unset( $_SESSION["error_login"] );
+}
+
+/* ------------------------------------------
+* switch error message return
+* for create user
+* ------------------------------------------*/
+if ( isset($_SESSION["create_user"]) ) {
+    $msg = $_SESSION["create_user"]["msg"];
+
+    switch ($_SESSION["create_user"]["error"]) {
+        case 'A1':
+            echo "
+            <script>
+            window.onload = function(){
+                UIkit.modal.dialog(\"<p class='uk-modal-body' style='color: #666'>$msg</p>\");
+            }
+            </script>
+            ";
+            unset($_SESSION["create_user"]);
+            break;
+        case 'A2':
+            echo "
+            <script>
+            window.onload = function(){
+                UIkit.modal.dialog(\"<p class='uk-modal-body' style='color: #666'>$msg</p>\");
+            }
+            </script>
+            ";
+            unset($_SESSION["create_user"]);
+            break;
+        case 'A3':
+            echo "
+            <script>
+            window.onload = function(){
+                UIkit.modal.dialog(\"<p class='uk-modal-body' style='color: #666'>$msg</p>\");
+            }
+            </script>
+            ";
+            unset($_SESSION["create_user"]);
+            break;
+        default:
+            echo "
+            <script>
+            window.onload = function(){
+                UIkit.modal.dialog(\"<p class='uk-modal-body' style='color: #666'>$msg</p>\");
+            }
+            </script>
+            ";
+            unset($_SESSION["create_user"]);
+            break;
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Login - Fsociety</title>
-		<link rel="shortcut icon" href="../img/svg/security.svg" />
+		<link rel="shortcut icon" href="../img/svg/ghost.svg" />
 		<link rel="stylesheet" type="text/css" href="../css/uikit.css">
 		<style>
 			.uk-width-large {
@@ -23,7 +97,7 @@
 					<div class="uk-margin-small">
 						<div class="uk-inline uk-width-1-1">
 							<span class="uk-form-icon uk-icon" data-uk-icon="icon: user"></span>
-							<input id="id_username" autocomplete="off" name="username" pattern="[A-Za-z]{5,20}" class="uk-input uk-border-pill" onblur="SpaceLeft(event)" required type="text" style="border-color: red;">
+							<input id="id_username" autocomplete="off" name="username"  class="uk-input uk-border-pill" onblur="SpaceLeft(event)" required type="text" style="border-color: red;">
 						</div>
 					</div>
 					<div class="uk-margin-small">
@@ -38,19 +112,19 @@
 				</fieldset>
 			</form>
 
-			<form id="form_cadastro" class="toggle-class" action="test.php" method="POST" hidden>
+			<form id="form_cadastro" class="toggle-class" action="../php/cadastro-user.php" method="POST" hidden>
 				<fieldset class="uk-fieldset">
 				
 				<div class="uk-margin-small">
 					<div class="uk-inline uk-width-1-1">
 						<span class="uk-form-icon uk-icon" data-uk-icon="icon: user"></span>
-						<input autocomplete="off" id="id_username_cadastro" name="username_cadastro" class="uk-input uk-border-pill" onblur="VerifyUserRegister(event)" required type="text">
+						<input autocomplete="off" id="id_username_cadastro" name="username_cadastro" class="uk-input uk-border-pill" onkeypress="VerifyUserRegister(event)" required type="text" style="border-color: red;">
 					</div>
 				</div>
 				<div class="uk-margin-small">
 					<div class="uk-inline uk-width-1-1">
 						<span class="uk-form-icon uk-icon" data-uk-icon="icon: pencil"></span>
-						<input autocomplete="off" id="token_cadastro" name="token_cadastro" class="uk-input uk-border-pill" onblur="VerifyTokenRegister(event)" required type="text">
+						<input autocomplete="off" id="id_token_cadastro" name="token_cadastro" class="uk-input uk-border-pill" onblur="VerifyTokenRegister(event)" required type="text" style="border-color: red;">
 					</div>
 				</div>
 				<input type="hidden" id="id_passwd_cadastro_hidden_one" name="passwd_cadastro_hidden_one" value="" type="password">
@@ -89,79 +163,7 @@
 			</div>
 		</div>
 	
-		<script>
-
-			document.forms['form_cadastro'].onsubmit = function(){return false;};
-			const login = document.getElementById("login");
-			const form_cadastro = document.getElementById("form_cadastro");
-			const user_input = document.getElementById("id_username");
-			const pass_input = document.getElementById("id_password");
-			const username_cadastro = document.getElementById("id_username_cadastro");
-			const token_cadastro = document.getElementById("token_cadastro");
-			const botton_cadastro = document.getElementById("botton_cadastro");
-			const passwd_cadastro_hidden_one = document.getElementById("id_passwd_cadastro_hidden_one");
-			const passwd_cadastro_hidden_two = document.getElementById("id_passwd_cadastro_hidden_two");
-			const password_one = document.getElementById("id_password_one");
-			const password_two = document.getElementById("id_password_two");
-			const modal_confirm = document.getElementById("confirm-cadastro");
-
-			function SpaceLeft(event) {
-				if (user_input.value=='admin') {
-					user_input.style.borderColor = "green";
-				} else {
-					user_input.style.borderColor = "red";
-				}
-			}
-			function VerifyPass(event) {
-				if (pass_input.value.length > 7) {
-					pass_input.style.borderColor = "green";
-				} else {
-					pass_input.style.borderColor = "red";
-				}
-			}
-			function VerifyUserRegister(event) {
-				
-			}
-			function VerifyTokenRegister(event) {
-				if ( (username_cadastro.value.length > 4) && (token_cadastro.value.length > 4) ) {
-					botton_cadastro.disabled = "";
-					botton_cadastro.style["backgroundColor"] = "#e46d95";
-				} else {
-					botton_cadastro.disabled = "disabled";
-				}
-					
-			}
-			function RegisterUser(event) {
-				let sendformflag = 0;
-				passwd_cadastro_hidden_one.value = password_one.value;
-				passwd_cadastro_hidden_two.value = password_two.value;
-				if ( username_cadastro.value.length < 5 ) {
-					login.style.borderColor = "red";
-					UIkit.notification({message: 'O usuário deve ter mais de 4 caracteres.'});
-					sendformflag++;
-				}
-				if ( token_cadastro.value.length < 5 ) {
-					login.style.borderColor = "red";
-					UIkit.notification({message: 'O token contém 64 caracteres.'});
-					sendformflag++;
-				}
-				if ( ( passwd_cadastro_hidden_two.value.length < 8 ) && ( passwd_cadastro_hidden_one.value.length < 8 ) ) {
-					login.style.borderColor = "red";
-					UIkit.notification({message: 'A senha deve ter mais de 8 caracteres.'});
-					sendformflag++;
-				}
-				if ( passwd_cadastro_hidden_two.value != passwd_cadastro_hidden_one.value ) {
-					login.style.borderColor = "red";
-					UIkit.notification({message: 'Senhas diferentes.'});
-					sendformflag++;
-				}
-				if ( sendformflag == 0 ) {
-					form_cadastro.submit();
-				}
-			}
-			
-		</script>
-		
+		<script src="check.js"></script>
 		<script src="../js/uikit.js"></script>
 		<script src="../js/uikit-icons.js"></script>
 	</body>
