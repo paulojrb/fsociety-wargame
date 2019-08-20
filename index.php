@@ -46,7 +46,12 @@ require_once (__ROOT__.'/php/insert-html.php');
 					<div class="uk-navbar-right">
 						<ul class="uk-navbar-nav uk-visible@s">
 							<li><a href=""><span class="fs-color-blue fs-navbar-text fs-link-hover" >Home</span></a></li>
-							<li><a href="dashboard/"><span class="fs-color-blue fs-navbar-text fs-link-hover">Dashboard</span></a></li>
+							<?php 
+							if ( isset($_SESSION["name_user"]) ) {
+								echo '<li><a href="dashboard/"><span class="fs-color-blue fs-navbar-text fs-link-hover">Dashboard</span></a></li>';
+							}
+							?>
+							
 							<li><a href=""><span class="fs-color-blue fs-navbar-text fs-link-hover">About Us</span></a></li>
 							<?php
 								
@@ -74,10 +79,9 @@ require_once (__ROOT__.'/php/insert-html.php');
 					<div style="margin-top: 30px;">
 						<ul class="uk-navbar-nav uk-visible@s">
 							<li class=" uk-visible@m"><a href="" disabled><span class="fs-color-blue">Follow Us</span></a></li>
-							<li class=" uk-visible@m"><a href="" data-uk-icon="github" style="color: #03fcfe; padding-right:0px" class="fs-link-hover"></a></li>
+							<li class=" uk-visible@m"><a href="https://github.com/paulojrb/fsociety-wargame/" target="_blank" data-uk-icon="github" style="color: #03fcfe; padding-right:0px" class="fs-link-hover"></a></li>
 							<li class=" uk-visible@m"><a href="" data-uk-icon="youtube" style="color: #03fcfe; padding-right: 0px;" class="fs-link-hover"></a></li>
-							<li class=" uk-visible@m"><a href="" data-uk-icon="linkedin" style="color: #03fcfe; padding-right: 0px;" class="fs-link-hover"></a></li>
-							
+							<li class=" uk-visible@m"><a href="https://www.linkedin.com/in/paulo-roberto-66974a183" target="_blank" data-uk-icon="linkedin" style="color: #03fcfe; padding-right: 0px;" class="fs-link-hover"></a></li>
 						</ul>
 					</div>
 				</div>

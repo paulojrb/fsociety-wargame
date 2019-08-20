@@ -32,6 +32,7 @@ if ( $lRows == NULL ) {
     $_SESSION["error_login"] = "Usuário ou senha não inválidos, por favor tente novamente";
 } else {
     $_SESSION["name_user"] = $lRows[1];
+    $_SESSION["img_profile"] = $lRows[3];
     $_SESSION["time_for_logoff"] = time() + $TIME_SESSION;
 }
 $handler->conMysqlClose();

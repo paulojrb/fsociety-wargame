@@ -28,6 +28,6 @@ if ($lResult = $handler->ExecQuery($pQueryString) === TRUE ) {
 $handler->conMysqlClose();
 
 /* Redirect default */
-header('Location: ../index.php');
+header('Location: ../dashboard/');
 
 ?>
