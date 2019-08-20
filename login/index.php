@@ -107,7 +107,7 @@ if ( isset($_SESSION["create_user"]) ) {
 						</div>
 					</div>
 					<div class="uk-margin-bottom uk-text-center">
-						<button type="submit" class="uk-button uk-button-primary uk-border-pill" style="background-color: #e46d95">LOG IN</button>
+						<button type="submit" class="uk-button uk-button-primary uk-border-pill" style="background:#585277">LOG IN</button>
 					</div>
 				</fieldset>
 			</form>

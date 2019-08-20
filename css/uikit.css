@@ -8889,6 +8889,7 @@ iframe.uk-cover {
   bottom: 0;
   left: 0;
   right: 0;
+  background: -webkit-linear-gradient(270deg,#47426bf0,#f1e64b38);
 }
 /* Utility
  ========================================================================== */
